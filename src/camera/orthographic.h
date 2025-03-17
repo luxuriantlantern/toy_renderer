@@ -1,5 +1,5 @@
 //
-// Created by ftc on 25-3-17.
+// Created by clx on 25-3-17.
 //
 
 #ifndef TOY_RENDERER_ORTHOGRAPHIC_H

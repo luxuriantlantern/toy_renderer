@@ -12,6 +12,7 @@ enum CameraType {
     ORTHOGRAPHIC
 };
 
+// TODO: Finish the move part for the Camera class, wasd(forward up back down) jk(forward back) and mouse control.
 class Camera {
 public:
     Camera() = default;
