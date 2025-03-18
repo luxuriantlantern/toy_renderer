@@ -1,5 +1,5 @@
 //
-// Created by ftc on 25-3-17.
+// Created by clx on 25-3-17.
 //
 
 #ifndef TOY_RENDERER_CAMERA_H
@@ -20,7 +20,7 @@ public:
     Camera &operator=(const Camera &other) {*this = other; return *this;}
 
     virtual void update() = 0;
-    glm::Matrix4 getViewMatrix() const {return mViewMatrix;}
+    glm::mat4 getViewMatrix() const {return mViewMatrix;}
     virtual CameraType getType() = 0;
 
     // Movement controls
@@ -40,7 +40,7 @@ public:
 
 
 protected:
-    glm::Matrix4 mViewMatrix{1.0f};
+    glm::mat4 mViewMatrix{1.0f};
     glm::vec3 mPosition{0.0f};
     glm::vec3 mFront{0.0f, 0.0f, -1.0f};
     glm::vec3 mUp{0.0f, 1.0f, 0.0f};

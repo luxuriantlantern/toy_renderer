@@ -18,9 +18,11 @@ public:
 
     void init();
     void render(Camera* camera);
+    void cleanup();
 
 private:
     GLFWwindow *mWindow;
+
 };
 
 
