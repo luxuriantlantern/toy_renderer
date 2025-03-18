@@ -26,6 +26,17 @@ public:
 
     CameraType getType() override {return ORTHOGRAPHIC;}
 
+    void setOrthoSize(float left, float right, float bottom, float top) {
+        mleft = left; mright = right;
+        mbottom = bottom; mtop = top;
+    }
+    void setNearFar(float near, float far) { mnear = near; mfar = far; }
+
+    glm::mat4 getProjectionMatrix() const { return mProjectionMatrix; }
+
+protected:
+    glm::mat4 mProjectionMatrix{1.0f};
+
 private:
     float mleft;
     float mright;

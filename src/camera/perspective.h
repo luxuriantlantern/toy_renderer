@@ -9,11 +9,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-const float pi = 3.1415927;
 
 class PerspectiveCamera : public Camera{
 public:
-    PerspectiveCamera(float fov = 45.0f / 180.0f * pi,
+    PerspectiveCamera(float fov = 45.0f,
                       float aspectRatio = 1.0f,
                       float near = 0.1f,
                       float far = 100.0f):
@@ -25,6 +24,20 @@ public:
     }
 
     CameraType getType() override {return PERSPECTIVE;}
+
+    void setFov(float fov) {mfov = fov;}
+    void setAspectRatio(float aspectRatio) {maspectRatio = aspectRatio;}
+    void setNear(float near) {mnear = near;}
+
+    float getFov() const {return mfov;}
+    float getAspectRatio() const {return maspectRatio;}
+    float getNear() const {return mnear;}
+    float getFar() const {return mfar;}
+    glm::mat4 getProjectionMatrix() const {return mProjectionMatrix;}
+
+protected:
+    glm::mat4 mProjectionMatrix{1.0f};
+
 private:
     float mfov;
     float maspectRatio;

@@ -12,7 +12,6 @@ enum CameraType {
     ORTHOGRAPHIC
 };
 
-// TODO: Finish the move part for the Camera class, wasd(forward up back down) jk(forward back) and mouse control.
 class Camera {
 public:
     Camera() = default;
@@ -24,12 +23,35 @@ public:
     glm::Matrix4 getViewMatrix() const {return mViewMatrix;}
     virtual CameraType getType() = 0;
 
+    // Movement controls
+    void moveForward(float deltaTime);
+    void moveBackward(float deltaTime);
+    void moveLeft(float deltaTime);
+    void moveRight(float deltaTime);
+    void moveUp(float deltaTime);
+    void moveDown(float deltaTime);
+
+    // Mouse rotation control
+    void processMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
+
+    // Setters for movement parameters
+    void setMovementSpeed(float speed) { mMovementSpeed = speed; }
+    void setMouseSensitivity(float sensitivity) { mMouseSensitivity = sensitivity; }
+
+
 protected:
     glm::Matrix4 mViewMatrix{1.0f};
     glm::vec3 mPosition{0.0f};
     glm::vec3 mFront{0.0f, 0.0f, -1.0f};
     glm::vec3 mUp{0.0f, 1.0f, 0.0f};
     glm::vec3 mRight{1.0f, 0.0f, 0.0f};
+
+    float mYaw = -90.0f;
+    float mPitch = 0.0f;
+    float mMovementSpeed = 2.5f;
+    float mMouseSensitivity = 0.1f;
+
+    void updateCameraVectors();
 };
 
 

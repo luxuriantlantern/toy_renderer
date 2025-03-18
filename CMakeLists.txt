@@ -1,11 +1,22 @@
-file(GLOB_RECURSE SRC_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/**/*.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/**/*.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/**/*.hpp"
+cmake_minimum_required(VERSION 3.10)
+project(toy_renderer)
+
+add_subdirectory(third_party)
+add_executable(${PROJECT_NAME}
+    main.cpp
+    src/camera/camera.cpp
+    src/ui/ui_manager.cpp
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_sources(${PROJECT_NAME} PRIVATE ${SRC_FILES})
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/third_party/imgui
+        ${CMAKE_SOURCE_DIR}/third_party/imgui/backends
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+        glfw
+        glm
+        imgui
+)
