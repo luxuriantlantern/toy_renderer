@@ -10,6 +10,9 @@ add_executable(${PROJECT_NAME}
         main.cpp
         src/camera/camera.cpp
         src/ui/ui_manager.cpp
+        src/scene/scene.cpp
+        src/scene/object.cpp
+        src/scene/object.h
 )
 
 find_package(OpenGL REQUIRED)
@@ -25,6 +28,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         OpenGL::GL
+        glad
         glfw
         glm
         imgui

@@ -1,13 +1,24 @@
 # GLFW
-add_subdirectory(glfw)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(glfw)
 
 # GLM
 add_library(glm INTERFACE)
 target_include_directories(glm INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/glm
+)
+
+# GLAD
+add_library(glad STATIC
+        glad/src/glad.c
+)
+target_include_directories(glad PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/glad/include
+)
+target_link_libraries(glad PUBLIC
+        ${CMAKE_DL_LIBS}
 )
 
 # ImGui
@@ -24,6 +35,10 @@ add_library(imgui STATIC
 target_include_directories(imgui PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends
+    ${CMAKE_CURRENT_SOURCE_DIR}/glad/include
 )
 
-target_link_libraries(imgui PUBLIC glfw)
+target_link_libraries(imgui PUBLIC
+        glfw
+        glad
+)
