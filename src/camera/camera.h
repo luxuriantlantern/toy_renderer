@@ -18,9 +18,11 @@ public:
     virtual ~Camera() = default;
     Camera(const Camera &other) {*this = other;}
     Camera &operator=(const Camera &other) {*this = other; return *this;}
+    Camera(glm::vec3 position) {mPosition = position;}
 
     virtual void update() = 0;
     glm::mat4 getViewMatrix() const {return mViewMatrix;}
+    glm::mat4 getProjectionMatrix() const {return mProjectionMatrix;}
     virtual CameraType getType() = 0;
 
     // Movement controls
@@ -41,6 +43,8 @@ public:
 
 protected:
     glm::mat4 mViewMatrix{1.0f};
+    glm::mat4 mProjectionMatrix{1.0f};
+
     glm::vec3 mPosition{0.0f};
     glm::vec3 mFront{0.0f, 0.0f, -1.0f};
     glm::vec3 mUp{0.0f, 1.0f, 0.0f};

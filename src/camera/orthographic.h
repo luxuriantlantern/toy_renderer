@@ -21,7 +21,7 @@ public:
 
     void update() override {
         mViewMatrix = glm::lookAt(mPosition, mPosition + mFront, mUp);
-        mProjectionMatrix = glm::ortho(left, right, bottom, top, near, far);
+        mProjectionMatrix = glm::ortho(mleft, mright, mbottom, mtop, mnear, mfar);
     }
 
     CameraType getType() override {return ORTHOGRAPHIC;}

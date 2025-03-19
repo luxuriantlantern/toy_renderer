@@ -1,5 +1,5 @@
 //
-// Created by 18067 on 25-3-19.
+// Created by clx on 25-3-19.
 //
 
 #ifndef OBJECT_H
@@ -13,19 +13,20 @@
 class Object {
 public:
     Object() = default;
-    virtual ~Object();
+    ~Object();
 
     virtual void setup();
     virtual void cleanup();
-    virtual void render() const;
+
+    std::vector<glm::vec3> getVertices() const { return vertices; }
+    std::vector<unsigned int> getIndices() const { return indices; }
+    unsigned int getVAO() const{ return VAO; }
 
 protected:
     std::vector<glm::vec3> vertices;
     std::vector<unsigned int> indices;
 
-    unsigned int VAO{0};
-    unsigned int VBO{0};
-    unsigned int EBO{0};
+    unsigned int VAO, VBO, EBO;
 };
 
 #endif //OBJECT_H

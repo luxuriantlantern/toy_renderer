@@ -5,8 +5,9 @@
 #ifndef TOY_RENDERER_SCENE_H
 #define TOY_RENDERER_SCENE_H
 
-#include "cube.h"
 #include "../camera/camera.h"
+#include "object.h"
+#include "../render/render.h"
 #include <memory>
 #include <vector>
 #include <glad/glad.h>
@@ -14,7 +15,18 @@
 
 class Scene {
 public:
-    Scene()
-);
+    Scene();
+    ~Scene() = default;
+
+    void addObject(std::shared_ptr<Object> object);
+    void setCamera(std::shared_ptr<Camera> camera);
+    void setRenderer(std::shared_ptr<Renderer> renderer);
+    void render();
+
+private:
+    std::vector<std::shared_ptr<Object>> mObjects;
+    std::shared_ptr<Camera> mCamera;
+    std::shared_ptr<Renderer> mRenderer;
+};
 
 #endif //TOY_RENDERER_SCENE_H

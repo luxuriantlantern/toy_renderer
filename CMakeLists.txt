@@ -12,9 +12,10 @@ add_executable(${PROJECT_NAME}
         src/ui/ui_manager.cpp
         src/scene/scene.cpp
         src/scene/object.cpp
-        src/scene/object.h
+        src/scene/cube.cpp
+        src/render/render.cpp
 )
-
+set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
