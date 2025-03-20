@@ -5,17 +5,17 @@
 #include "render.h"
 
 Renderer::Renderer() {
-    mShaderMode = ShaderMode::DEFAULT;
+    mShaderMode = Shadertype::DEFAULT;
     setupDefaultShader();
 }
 
-Renderer::Renderer(ShaderMode mode)
+Renderer::Renderer(Shadertype mode)
 {
     // TODO: Update renderer to support different shader modes
     mShaderMode = mode;
     switch (mode)
     {
-        case ShaderMode::DEFAULT:
+        case Shadertype::DEFAULT:
             setupDefaultShader();
             break;
         default:

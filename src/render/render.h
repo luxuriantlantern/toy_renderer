@@ -13,7 +13,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-enum ShaderMode
+enum Shadertype
 {
     DEFAULT = 0,
     PHONG = 1,
@@ -23,7 +23,7 @@ enum ShaderMode
 class Renderer {
 public:
     Renderer();
-    Renderer(ShaderMode mode);
+    Renderer(Shadertype mode);
 
     ~Renderer();
 
@@ -31,7 +31,7 @@ public:
 
 private:
     unsigned int mShaderProgram;
-    ShaderMode mShaderMode;
+    Shadertype mShaderMode;
     void setupDefaultShader(); // Basic shader setup
 };
 
