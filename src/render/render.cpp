@@ -9,6 +9,20 @@ Renderer::Renderer() {
     setupDefaultShader();
 }
 
+Renderer::Renderer(ShaderMode mode)
+{
+    // TODO: Update renderer to support different shader modes
+    mShaderMode = mode;
+    switch (mode)
+    {
+        case ShaderMode::DEFAULT:
+            setupDefaultShader();
+            break;
+        default:
+            setupDefaultShader();
+    }
+}
+
 Renderer::~Renderer() {
     glDeleteProgram(mShaderProgram);
 }

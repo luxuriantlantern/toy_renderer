@@ -23,6 +23,8 @@ enum ShaderMode
 class Renderer {
 public:
     Renderer();
+    Renderer(ShaderMode mode);
+
     ~Renderer();
 
     void renderObject(const Camera* camera, const Object* object);

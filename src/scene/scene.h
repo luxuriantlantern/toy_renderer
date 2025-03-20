@@ -23,6 +23,8 @@ public:
     void setRenderer(std::shared_ptr<Renderer> renderer);
     void render();
 
+    std::shared_ptr<Camera> getCamera() const { return mCamera; }
+
 private:
     std::vector<std::shared_ptr<Object>> mObjects;
     std::shared_ptr<Camera> mCamera;
