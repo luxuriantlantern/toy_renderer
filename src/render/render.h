@@ -33,6 +33,8 @@ private:
     unsigned int mShaderProgram;
     Shadertype mShaderMode;
     void setupDefaultShader(); // Basic shader setup
+    void setupPhongShader(); // Phong shader setup
+    void setupRaytracingShader(); // Raytracing shader setup
 };
 
 

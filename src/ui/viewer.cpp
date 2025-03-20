@@ -77,29 +77,91 @@ void Viewer::processInput(GLFWwindow *window) {
         glfwSetWindowShouldClose(window, true);
     }
 
-//    float currentFrame = glfwGetTime();
-//    float deltaTime = currentFrame - lastFrame;
-//    lastFrame = currentFrame;
-//
-//    // WASD movement (left, right, forward, backward)
-//    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-//        mcamera->moveUp(deltaTime);
-//    }
-//    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-//        mcamera->moveDown(deltaTime);
-//    }
-//    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-//        mcamera->moveLeft(deltaTime);
-//    }
-//    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-//        mcamera->moveRight(deltaTime);
-//    }
-//
-//    // J and K for up and down movement
-//    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
-//        mcamera->moveForward(deltaTime);
-//    }
-//    if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
-//        mcamera->moveBackward(deltaTime);
-//    }
+    float currentFrame = glfwGetTime();
+    float deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+
+    // WASD movement (up, left, down, right) and JK movement (forward, backward)
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        mcamera->moveUp(deltaTime);
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        mcamera->moveDown(deltaTime);
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        mcamera->moveLeft(deltaTime);
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        mcamera->moveRight(deltaTime);
+    }
+    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
+        mcamera->moveForward(deltaTime);
+    }
+    if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
+        mcamera->moveBackward(deltaTime);
+    }
+
+    // Mouse movement
+    static bool firstMouse = true;
+    static float lastX = 0.0f, lastY = 0.0f;
+    static bool rightMousePressed = false;
+    static bool leftMousePressed = false;
+
+    int rightMouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
+    int leftMouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+
+    double xpos, ypos;
+    glfwGetCursorPos(window, &xpos, &ypos);
+
+    if (rightMouseState == GLFW_PRESS) {
+        if (!rightMousePressed) {
+            rightMousePressed = true;
+            firstMouse = true;
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        }
+
+        if (firstMouse) {
+            lastX = xpos;
+            lastY = ypos;
+            firstMouse = false;
+        }
+
+        float xoffset = xpos - lastX;
+        float yoffset = lastY - ypos;
+
+        lastX = xpos;
+        lastY = ypos;
+
+        mcamera->processRightMouseMovement(xoffset, yoffset);
+    }
+    else if (rightMousePressed) {
+        rightMousePressed = false;
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+
+    if (leftMouseState == GLFW_PRESS) {
+        if (!leftMousePressed) {
+            leftMousePressed = true;
+            firstMouse = true;
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        }
+
+        if (firstMouse) {
+            lastX = xpos;
+            lastY = ypos;
+            firstMouse = false;
+        }
+
+        float xoffset = xpos - lastX;
+        float yoffset = lastY - ypos;
+
+        lastX = xpos;
+        lastY = ypos;
+
+        mcamera->processLeftMouseMovement(xoffset, yoffset);
+    }
+    else if (leftMousePressed) {
+        leftMousePressed = false;
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
 }

@@ -18,6 +18,9 @@ Renderer::Renderer(Shadertype mode)
         case Shadertype::DEFAULT:
             setupDefaultShader();
             break;
+        case Shadertype::PHONG:
+            setupPhongShader();
+            break;
         default:
             setupDefaultShader();
     }
@@ -64,6 +67,106 @@ void Renderer::setupDefaultShader() {
     glDeleteShader(fragmentShader);
 }
 
+void Renderer::setupPhongShader() {
+    const char *vertexShaderSource = "#version 330 core\n"
+                                     "layout (location = 0) in vec3 aPos;\n"
+                                     "layout (location = 1) in vec3 aNormal;\n"
+                                     "out vec3 FragPos;\n"
+                                     "out vec3 Normal;\n"
+                                     "uniform mat4 model;\n"
+                                     "uniform mat4 view;\n"
+                                     "uniform mat4 projection;\n"
+                                     "void main()\n"
+                                     "{\n"
+                                     "    FragPos = vec3(model * vec4(aPos, 1.0));\n"
+                                     "    Normal = mat3(transpose(inverse(model))) * aNormal;\n"
+                                     "    gl_Position = projection * view * model * vec4(aPos, 1.0);\n"
+                                     "}\n";
+
+    const char *fragmentShaderSource = "#version 330 core\n"
+                                       "out vec4 FragColor;\n"
+                                       "in vec3 FragPos;\n"
+                                       "in vec3 Normal;\n"
+                                       "uniform vec3 objectColor;\n"
+                                       "uniform vec3 lightColor;\n"
+                                       "uniform vec3 lightPos;\n"
+                                       "uniform vec3 viewPos;\n"
+                                       "void main()\n"
+                                       "{\n"
+                                       "    // Ambient\n"
+                                       "    float ambientStrength = 0.1;\n"
+                                       "    vec3 ambient = ambientStrength * lightColor;\n"
+                                       "    \n"
+                                       "    // Diffuse\n"
+                                       "    vec3 norm = normalize(Normal);\n"
+                                       "    vec3 lightDir = normalize(lightPos - FragPos);\n"
+                                       "    float diff = max(dot(norm, lightDir), 0.0);\n"
+                                       "    vec3 diffuse = diff * lightColor;\n"
+                                       "    \n"
+                                       "    // Specular\n"
+                                       "    float specularStrength = 0.5;\n"
+                                       "    vec3 viewDir = normalize(viewPos - FragPos);\n"
+                                       "    vec3 reflectDir = reflect(-lightDir, norm);\n"
+                                       "    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);\n"
+                                       "    vec3 specular = specularStrength * spec * lightColor;\n"
+                                       "    \n"
+                                       "    // Combine\n"
+                                       "    vec3 result = (ambient + diffuse + specular) * objectColor;\n"
+                                       "    FragColor = vec4(result, 1.0);\n"
+                                       "}\n";
+
+    // Create shaders
+    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
+
+    // Check for vertex shader compilation errors
+    int success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        // Print or log the error
+    }
+
+    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
+
+    // Check for fragment shader compilation errors
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        // Print or log the error
+    }
+
+    // Create program and link shaders
+    mShaderProgram = glCreateProgram();
+    glAttachShader(mShaderProgram, vertexShader);
+    glAttachShader(mShaderProgram, fragmentShader);
+    glLinkProgram(mShaderProgram);
+
+    // Check for linking errors
+    glGetProgramiv(mShaderProgram, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetProgramInfoLog(mShaderProgram, 512, NULL, infoLog);
+        // Print or log the error
+    }
+
+    // Clean up shaders
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
+    // Set light position at (1,1,1)
+    glUseProgram(mShaderProgram);
+    unsigned int lightPosLoc = glGetUniformLocation(mShaderProgram, "lightPos");
+    glUniform3f(lightPosLoc, 1.0f, 1.0f, 1.0f);
+
+    // Set default light color (white)
+    unsigned int lightColorLoc = glGetUniformLocation(mShaderProgram, "lightColor");
+    glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
+}
+
 void Renderer::renderObject(const Camera *camera, const Object *object)
 {
     if(!camera || !object)return;
@@ -86,6 +189,11 @@ void Renderer::renderObject(const Camera *camera, const Object *object)
     // Set up object color
     unsigned int objectColorLoc = glGetUniformLocation(mShaderProgram, "objectColor");
     glUniform3f(objectColorLoc, 1.0f, 1.0f, 1.0f);
+
+    if (mShaderMode == Shadertype::PHONG) {
+        unsigned int viewPosLoc = glGetUniformLocation(mShaderProgram, "viewPos");
+        glUniform3fv(viewPosLoc, 1, glm::value_ptr(camera->getPosition()));
+    }
 
     // Draw object
     glBindVertexArray(object->getVAO());

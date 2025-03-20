@@ -23,6 +23,7 @@ public:
     virtual void update() = 0;
     glm::mat4 getViewMatrix() const {return mViewMatrix;}
     glm::mat4 getProjectionMatrix() const {return mProjectionMatrix;}
+    glm::vec3 getPosition() const {return mPosition;}
     virtual CameraType getType() = 0;
 
     // Movement controls
@@ -34,7 +35,8 @@ public:
     void moveDown(float deltaTime);
 
     // Mouse rotation control
-    void processMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
+    void processRightMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
+    void processLeftMouseMovement(float xoffset, float yoffset);
 
     // Setters for movement parameters
     void setMovementSpeed(float speed) { mMovementSpeed = speed; }

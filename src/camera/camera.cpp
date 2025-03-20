@@ -31,7 +31,15 @@ void Camera::moveDown(float deltaTime) {
     mPosition -= mUp * mMovementSpeed * deltaTime;
 }
 
-void Camera::processMouseMovement(float xoffset, float yoffset, bool constrainPitch) {
+void Camera::processLeftMouseMovement(float xoffset, float yoffset) {
+    xoffset *= mMouseSensitivity * 0.1f;
+    yoffset *= mMouseSensitivity * 0.1f;
+
+    this->moveRight(xoffset);
+    this->moveDown(yoffset);
+}
+
+void Camera::processRightMouseMovement(float xoffset, float yoffset, bool constrainPitch) {
     xoffset *= mMouseSensitivity;
     yoffset *= mMouseSensitivity;
 
