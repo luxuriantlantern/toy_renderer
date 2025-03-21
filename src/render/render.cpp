@@ -120,38 +120,15 @@ void Renderer::setupPhongShader() {
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
 
-    // Check for vertex shader compilation errors
-    int success;
-    char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        // Print or log the error
-    }
-
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
-
-    // Check for fragment shader compilation errors
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        // Print or log the error
-    }
 
     // Create program and link shaders
     mShaderProgram = glCreateProgram();
     glAttachShader(mShaderProgram, vertexShader);
     glAttachShader(mShaderProgram, fragmentShader);
     glLinkProgram(mShaderProgram);
-
-    // Check for linking errors
-    glGetProgramiv(mShaderProgram, GL_LINK_STATUS, &success);
-    if (!success) {
-        glGetProgramInfoLog(mShaderProgram, 512, NULL, infoLog);
-        // Print or log the error
-    }
 
     // Clean up shaders
     glDeleteShader(vertexShader);
