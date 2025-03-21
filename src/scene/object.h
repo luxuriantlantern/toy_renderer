@@ -22,11 +22,14 @@ public:
     std::vector<unsigned int> getIndices() const { return indices; }
     unsigned int getVAO() const{ return VAO; }
 
+    void calculateNormals();
+
 protected:
     std::vector<glm::vec3> vertices;
     std::vector<unsigned int> indices;
+    std::vector<glm::vec3> normals;
 
-    unsigned int VAO, VBO, EBO;
+    unsigned int VAO, VBO, EBO, NBO;
 };
 
 #endif //OBJECT_H

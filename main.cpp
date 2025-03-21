@@ -12,7 +12,7 @@ const unsigned int SCR_HEIGHT = 1440;
 
 int main()
 {
-    auto mviewer = std::make_shared<Viewer>(SCR_WIDTH, SCR_HEIGHT, CameraType::PERSPECTIVE, Shadertype::DEFAULT, "Cube Renderer");
+    auto mviewer = std::make_shared<Viewer>(SCR_WIDTH, SCR_HEIGHT, CameraType::PERSPECTIVE, Shadertype::PHONG, "Cube Renderer");
     auto mcube = std::make_shared<cube>();
     mcube->initialize();
     auto mscene = mviewer->getScene();
