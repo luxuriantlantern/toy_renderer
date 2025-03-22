@@ -4,7 +4,7 @@
 
 #include "cube.h"
 
-cube::cube() {
+Cube::Cube() {
     // Define the 8 vertices of a cube centered at the origin with side length 1.0
     vertices = {
             // Front face
@@ -48,6 +48,6 @@ cube::cube() {
     };
 }
 
-void cube::initialize() {
+void Cube::initialize() {
     Object::setup();
 }

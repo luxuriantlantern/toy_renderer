@@ -51,6 +51,7 @@ void Viewer::init(int width, int height, CameraType cameratype, Shadertype shade
     // Create renderer
     mrenderer = std::make_shared<Renderer>(shadertype);
     mscene->setRenderer(mrenderer);
+
 }
 
 void Viewer::mainloop()
@@ -61,7 +62,7 @@ void Viewer::mainloop()
 
         // Render
         mscene->render();
-
+        mrenderer->renderLight();
         // Swap buffers and poll events
         glfwSwapBuffers(mwindow);
         glfwPollEvents();
@@ -82,7 +83,7 @@ void Viewer::processInput(GLFWwindow *window) {
     lastFrame = currentFrame;
 
     // WASD movement (up, left, down, right) and JK movement (forward, backward)
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+    if (glfwGetKey(window, GLFW_KEY_W) || glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
         mcamera->moveUp(deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {

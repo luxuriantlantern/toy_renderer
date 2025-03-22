@@ -17,7 +17,6 @@ enum Shadertype
 {
     DEFAULT = 0,
     PHONG = 1,
-    RAYTRACING = 2
 };
 
 class Renderer {
@@ -28,13 +27,16 @@ public:
     ~Renderer();
 
     void renderObject(const Camera* camera, const Object* object);
+    void renderLight();
 
 private:
     unsigned int mShaderProgram;
     Shadertype mShaderMode;
     void setupDefaultShader(); // Basic shader setup
     void setupPhongShader(); // Phong shader setup
-    void setupRaytracingShader(); // Raytracing shader setup
+
+    glm::vec3 lightpos{1.0f, 1.0f, 1.0f};
+    glm::vec3 lightcolor{1.0f, 1.0f, 1.0f};
 };
 
 

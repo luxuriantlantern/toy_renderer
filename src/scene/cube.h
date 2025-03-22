@@ -8,10 +8,10 @@
 
 #include "object.h"
 
-class cube : public Object {
+class Cube : public Object {
 public:
-    cube();
-    ~cube() = default;
+    Cube();
+    ~Cube() = default;
     void initialize();
 };
 
