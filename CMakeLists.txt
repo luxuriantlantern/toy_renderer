@@ -14,7 +14,8 @@ add_executable(${PROJECT_NAME}
         src/scene/object.cpp
         src/scene/cube.cpp
         src/render/render.cpp
-        src/ui/viewer.cpp
+        src/io/viewer.cpp
+        src/io/loader.cpp
 )
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)

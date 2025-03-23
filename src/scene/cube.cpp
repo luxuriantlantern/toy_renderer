@@ -5,7 +5,6 @@
 #include "cube.h"
 
 Cube::Cube() {
-    // Define the 8 vertices of a cube centered at the origin with side length 1.0
     vertices = {
             // Front face
             glm::vec3(-0.5f, -0.5f, 0.5f),  // bottom-left
@@ -20,7 +19,6 @@ Cube::Cube() {
             glm::vec3(-0.5f, 0.5f, -0.5f)   // top-left
     };
 
-    // Define the indices to form the 6 faces (12 triangles) of the cube
     indices = {
             // Front face
             0, 1, 2,

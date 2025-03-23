@@ -26,7 +26,7 @@ void Object::calculateNormals() {
 
 void Object::setup(){
 
-    calculateNormals();
+//    calculateNormals();
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);

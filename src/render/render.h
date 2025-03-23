@@ -35,7 +35,7 @@ private:
     void setupDefaultShader(); // Basic shader setup
     void setupPhongShader(); // Phong shader setup
 
-    glm::vec3 lightpos{1.0f, 1.0f, 1.0f};
+    glm::vec3 lightpos{1.5f, 1.5f, 1.5f};
     glm::vec3 lightcolor{1.0f, 1.0f, 1.0f};
 };
 

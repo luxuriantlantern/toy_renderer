@@ -38,11 +38,13 @@ public:
 
     glm::vec3 ambient{0.2f, 0.2f, 0.2f}, diffuse{0.5f, 0.5f, 0.5f}, specular{1.0f, 1.0f, 1.0f};
 
-protected:
     std::vector<glm::vec3> vertices;
     std::vector<unsigned int> indices;
     std::vector<glm::vec3> normals;
+    std::vector<glm::vec2> texCoords;
+    std::vector<glm::vec3> facenormals;
 
+protected:
     unsigned int VAO, VBO, EBO, NBO;
 
     glm::mat4 model{1.0f};
