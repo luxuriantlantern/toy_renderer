@@ -65,10 +65,11 @@ void Viewer::mainloop()
         // Render
         mscene->render();
         mrenderer->renderLight();
+
+        muimanager->endloop();
         // Swap buffers and poll events
         glfwSwapBuffers(mwindow);
         glfwPollEvents();
-        muimanager->endloop();
     }
     muimanager->cleanup();
 }
