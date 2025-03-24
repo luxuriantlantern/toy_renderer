@@ -10,6 +10,8 @@
 #include "scene/scene.h"
 #include "GLFW/glfw3.h"
 #include <memory>
+#include "../ui/ui_manager.h"
+
 
 class Viewer {
 public:
@@ -31,6 +33,7 @@ private:
     std::shared_ptr<Camera> mcamera;
     std::shared_ptr<Renderer> mrenderer;
     float lastFrame = 0.0f;
+    std::shared_ptr<UI_Manager> muimanager;
 };
 
 

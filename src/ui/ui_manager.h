@@ -13,11 +13,12 @@
 
 class UI_Manager {
 public:
-    UI_Manager(GLFWwindow *window) : mWindow(window) {};
+    UI_Manager(GLFWwindow *window) : mWindow(window) {this->init();}
     ~UI_Manager() = default;
 
     void init();
-    void render(Camera* camera);
+    void startloop();
+    void endloop();
     void cleanup();
 
 private:

@@ -52,12 +52,14 @@ void Viewer::init(int width, int height, CameraType cameratype, Shadertype shade
     mrenderer = std::make_shared<Renderer>(shadertype);
     mscene->setRenderer(mrenderer);
 
+    muimanager = std::make_shared<UI_Manager>(mwindow);
 }
 
 void Viewer::mainloop()
 {
     while (!glfwWindowShouldClose(mwindow)) {
         // Process input
+        muimanager->startloop();
         processInput(mwindow);
 
         // Render
@@ -66,7 +68,9 @@ void Viewer::mainloop()
         // Swap buffers and poll events
         glfwSwapBuffers(mwindow);
         glfwPollEvents();
+        muimanager->endloop();
     }
+    muimanager->cleanup();
 }
 
 Viewer::~Viewer() {
