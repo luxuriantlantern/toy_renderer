@@ -20,6 +20,18 @@ public:
     ~Loader() = default;
 
     std::shared_ptr<Object> loadOBJ(const std::string& filePath);
+    std::shared_ptr<Object> loadPLY(const std::string& filePath);
+    std::shared_ptr<Object> load(const std::string& filePath)
+    {
+        if(filePath.substr(filePath.find_last_of(".") + 1) == "obj") {
+            return loadOBJ(filePath);
+        } else if(filePath.substr(filePath.find_last_of(".") + 1) == "ply") {
+            return loadPLY(filePath);
+        } else {
+            std::cerr << "Unsupported file format" << std::endl;
+            return nullptr;
+        }
+    }
 
 private:
     void processVertex(const std::string& line, std::shared_ptr<Object> &mObject);

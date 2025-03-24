@@ -43,6 +43,7 @@ public:
     std::vector<glm::vec3> normals;
     std::vector<glm::vec2> texCoords;
     std::vector<glm::vec3> facenormals;
+    bool normalcalculated = false;
 
 protected:
     unsigned int VAO, VBO, EBO, NBO;
