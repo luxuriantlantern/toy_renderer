@@ -1,0 +1,6 @@
+{
+  "resolution": [2560, 2560],
+  "camera": {
+    "type": "perspective"
+  }
+}
