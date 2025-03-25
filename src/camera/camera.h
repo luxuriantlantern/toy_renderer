@@ -41,7 +41,7 @@ public:
     // Setters for movement parameters
     void setMovementSpeed(float speed) { mMovementSpeed = speed; }
     void setMouseSensitivity(float sensitivity) { mMouseSensitivity = sensitivity; }
-
+    void setPosition(glm::vec3 position) { mPosition = position; }
 
 protected:
     glm::mat4 mViewMatrix{1.0f};
