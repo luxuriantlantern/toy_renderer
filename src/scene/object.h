@@ -9,6 +9,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 
 class Object {
@@ -35,6 +36,30 @@ public:
         this->diffuse = diffuse;
         this->specular = specular;
     };
+    void scale(const glm::vec3 &scale) { model = glm::scale(model, scale); }
+    void rotate(float angleInDegrees, const glm::vec3& axis) {
+        model = glm::rotate(model, glm::radians(angleInDegrees), glm::normalize(axis));
+    }
+    void rotateEulerXYZ(float angleX, float angleY, float angleZ) {
+        float radX = glm::radians(angleX);
+        float radY = glm::radians(angleY);
+        float radZ = glm::radians(angleZ);
+
+        glm::mat4 rotX = glm::rotate(glm::mat4(1.0f), radX, glm::vec3(1.0f, 0.0f, 0.0f));
+        glm::mat4 rotY = glm::rotate(glm::mat4(1.0f), radY, glm::vec3(0.0f, 1.0f, 0.0f));
+        glm::mat4 rotZ = glm::rotate(glm::mat4(1.0f), radZ, glm::vec3(0.0f, 0.0f, 1.0f));
+
+        model = model * rotZ * rotY * rotX;
+    }
+
+    void rotateQuaternion(const glm::quat& quaternion) {
+        glm::mat4 rotationMatrix = glm::mat4_cast(quaternion);
+        model = model * rotationMatrix;
+    }
+    void rotateQuaternion(float angleInDegrees, const glm::vec3& axis) {
+        glm::quat quaternion = glm::angleAxis(glm::radians(angleInDegrees), glm::normalize(axis));
+        rotateQuaternion(quaternion);
+    }
 
     glm::vec3 ambient{0.2f, 0.2f, 0.2f}, diffuse{0.5f, 0.5f, 0.5f}, specular{1.0f, 1.0f, 1.0f};
 
