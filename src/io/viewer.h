@@ -19,6 +19,10 @@ public:
     Viewer(int width, int height, CameraType cameratype, Shadertype type, const char* title) {
         init(width, height, cameratype, type, title);
     };
+    Viewer(int width, int height, CameraType cameraType, Shadertype type, const char* title, int fx, int fy, int cx, int cy){
+        init(width, height, cameraType, type, title);
+        mcamera->setFromIntrinsics(fx, fy, cx, cy);
+    }
     ~Viewer();
 
     void init(int width, int height, CameraType cameratype, Shadertype type, const char* title);

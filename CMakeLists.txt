@@ -27,6 +27,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/third_party/imgui/backends
         ${CMAKE_SOURCE_DIR}/third_party/glfw/include  # Add GLFW include
         ${CMAKE_SOURCE_DIR}/third_party/glm          # Add GLM include
+        ${CMAKE_SOURCE_DIR}/third_party/json/include
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -35,4 +36,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         glfw
         glm
         imgui
+        json
 )

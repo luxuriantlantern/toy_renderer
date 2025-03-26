@@ -3,6 +3,8 @@
 //
 
 #include <iostream>
+#include <fstream>
+#include <nlohmann/json.hpp>
 #include "viewer.h"
 
 void Viewer::init(int width, int height, CameraType cameratype, Shadertype shadertype, const char *title) {
@@ -46,6 +48,9 @@ void Viewer::init(int width, int height, CameraType cameratype, Shadertype shade
         default:
             mcamera = std::make_shared<PerspectiveCamera>();
     }
+    int w, h;
+    glfwGetWindowSize(window, &w, &h);
+    mcamera->setWindowSize(w, h);
     mscene->setCamera(mcamera);
 
     // Create renderer
@@ -63,7 +68,9 @@ void Viewer::mainloop()
         processInput(mwindow);
 
         // Render
-        mscene->render();
+        int w, h;
+        glfwGetWindowSize(mwindow, &w, &h);
+        mscene->render(w, h);
         mrenderer->renderLight();
 
         muimanager->endloop();

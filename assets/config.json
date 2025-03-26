@@ -1,6 +1,10 @@
 {
-  "resolution": [2560, 2560],
+  "resolution": [2560, 1920],
   "camera": {
-    "type": "perspective"
+    "type": "perspective",
+    "fx": 3092,
+    "fy":2319,
+    "cx": 1280,
+    "cy": 1280
   }
 }

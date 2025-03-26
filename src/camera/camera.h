@@ -20,11 +20,12 @@ public:
     Camera &operator=(const Camera &other) {*this = other; return *this;}
     Camera(glm::vec3 position) {mPosition = position;}
 
-    virtual void update() = 0;
+    virtual void update(int w, int h) = 0;
     glm::mat4 getViewMatrix() const {return mViewMatrix;}
     glm::mat4 getProjectionMatrix() const {return mProjectionMatrix;}
     glm::vec3 getPosition() const {return mPosition;}
     virtual CameraType getType() = 0;
+    virtual void setFromIntrinsics(float fx, float fy, float cx, float cy, float near = 0.1f, float far = 100.0f) = 0;
 
     // Movement controls
     void moveForward(float deltaTime);
@@ -42,6 +43,7 @@ public:
     void setMovementSpeed(float speed) { mMovementSpeed = speed; }
     void setMouseSensitivity(float sensitivity) { mMouseSensitivity = sensitivity; }
     void setPosition(glm::vec3 position) { mPosition = position; }
+    void setWindowSize(float width, float height) { mwidth = width; mheight = height; }
 
 protected:
     glm::mat4 mViewMatrix{1.0f};
@@ -56,6 +58,8 @@ protected:
     float mPitch = 0.0f;
     float mMovementSpeed = 2.5f;
     float mMouseSensitivity = 0.1f;
+
+    int mwidth, mheight;
 
     void updateCameraVectors();
 };

@@ -42,3 +42,9 @@ target_link_libraries(imgui PUBLIC
         glfw
         glad
 )
+
+# nlohmann/json
+add_library(json INTERFACE)
+target_include_directories(json INTERFACE
+        ${CMAKE_CURRENT_SOURCE_DIR}/json/include
+)

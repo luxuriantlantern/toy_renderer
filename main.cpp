@@ -6,52 +6,64 @@
 #include "scene/cube.h"
 #include "io/viewer.h"
 #include "io/loader.h"
+#include <nlohmann/json.hpp>
+#include <iostream>
+#include <fstream>
 
 // Window dimensions
 unsigned int SCR_WIDTH = 2560;
-unsigned int SCR_HEIGHT = 2560;
+unsigned int SCR_HEIGHT = 1920;
 CameraType CAM_TYPE = CameraType::PERSPECTIVE;
+int fx, fy, cx, cy;
 
 void loadJSON(const std::string &path)
 {
-    std::ifstream ifs(path);
-    if (!ifs.is_open())
+    std::ifstream file(path);
+    if(!file.is_open())
     {
         std::cerr << "Failed to open file: " << path << std::endl;
         return;
     }
-
-    std::stringstream buffer;
-    buffer << ifs.rdbuf();
-    std::string content = buffer.str();
-
-    size_t resPos = content.find("\"resolution\"");
-    size_t openBracket = content.find('[', resPos);
-    size_t comma = content.find(',', openBracket);
-    size_t closeBracket = content.find(']', comma);
-
-    SCR_WIDTH = std::stoi(content.substr(openBracket + 1, comma - openBracket - 1));
-    SCR_HEIGHT = std::stoi(content.substr(comma + 1, closeBracket - comma - 1));
-
-    size_t typePos = content.find("\"type\"", content.find("\"camera\""));
-    size_t typeValueStart = content.find(':', typePos) + 1;
-    size_t typeValueEnd = content.find(',', typeValueStart);
-    std::string cameraTypeStr = content.substr(typeValueStart, typeValueEnd - typeValueStart);
-
-    cameraTypeStr.erase(std::remove(cameraTypeStr.begin(), cameraTypeStr.end(), '\"'), cameraTypeStr.end());
-    cameraTypeStr.erase(std::remove(cameraTypeStr.begin(), cameraTypeStr.end(), ' '), cameraTypeStr.end());
-    cameraTypeStr.erase(std::remove(cameraTypeStr.begin(), cameraTypeStr.end(), '}'), cameraTypeStr.end());
-    cameraTypeStr.erase(std::remove(cameraTypeStr.begin(), cameraTypeStr.end(), '\n'), cameraTypeStr.end());
-
-
-    CAM_TYPE = (cameraTypeStr == "perspective") ?
-                            CameraType::PERSPECTIVE : CameraType::ORTHOGRAPHIC;
+    nlohmann::json config = nlohmann::json::parse(file);
+    if(config.contains("resolution"))
+    {
+        auto resolution = config["resolution"];
+        SCR_WIDTH = resolution[0];
+        SCR_HEIGHT = resolution[1];
+    }
+    if(config.contains("camera"))
+    {
+        auto camera = config["camera"];
+        if(camera["type"] == "perspective")
+        {
+            CAM_TYPE = CameraType::PERSPECTIVE;
+        }
+        else if(camera["type"] == "orthographic")
+        {
+            CAM_TYPE = CameraType::ORTHOGRAPHIC;
+        }
+        if(camera.contains("fx"))fx = camera["fx"];
+        if(camera.contains("fy"))fy = camera["fy"];
+        if(camera.contains("cx"))cx = camera["cx"];
+        if(camera.contains("cy"))cy = camera["cy"];
+    }
+//    if(config.contains("object"))
+//    {
+//        auto object = config["object"];
+//        for(int i = 0; i < object.size(); ++ i)
+//        {
+//            auto obj = object[i];
+//
+//        }
+//    }
 }
 
 int main()
 {
     loadJSON("../assets/config.json");
-    auto mviewer = std::make_shared<Viewer>(SCR_WIDTH, SCR_HEIGHT, CAM_TYPE, Shadertype::PHONG, "Cube Renderer");
+    std::shared_ptr<Viewer> mviewer;
+    if(!fx || !fy || !cx || !cy) mviewer = std::make_shared<Viewer>(SCR_WIDTH, SCR_HEIGHT, CAM_TYPE, Shadertype::PHONG, "Cube Renderer");
+    else mviewer = std::make_shared<Viewer>(SCR_WIDTH, SCR_HEIGHT, CAM_TYPE, Shadertype::PHONG, "Cube Renderer", fx, fy, cx, cy);
     auto mscene = mviewer->getScene();
     auto mloader = std::make_shared<Loader>();
     const std::string path = "../assets/cube.obj";

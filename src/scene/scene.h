@@ -21,7 +21,7 @@ public:
     void addObject(std::shared_ptr<Object> object);
     void setCamera(std::shared_ptr<Camera> camera);
     void setRenderer(std::shared_ptr<Renderer> renderer);
-    void render();
+    void render(int w, int h);
 
     std::shared_ptr<Camera> getCamera() const { return mCamera; }
 

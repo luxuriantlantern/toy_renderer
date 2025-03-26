@@ -19,7 +19,10 @@ public:
                        float far = 1.0f):
             mleft(left), mright(right), mbottom(bottom), mtop(top), mnear(near), mfar(far) {}
 
-    void update() override {
+    void setFromIntrinsics(float fx, float fy, float cx, float cy, float near = 0.1f, float far = 100.0f) {}
+
+    void update(int w, int h) override {
+        mwidth = w, mheight = h;
         mViewMatrix = glm::lookAt(mPosition, mPosition + mFront, mUp);
         mProjectionMatrix = glm::ortho(mleft, mright, mbottom, mtop, mnear, mfar);
     }
