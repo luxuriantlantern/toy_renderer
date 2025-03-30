@@ -1,6 +1,0 @@
-/home/ftc/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/ftc/.local/share/JetBrains/Toolbox/apps/clion/bin/ninja/linux/x64/ninja -G Ninja -S /media/ftc/G/code/toy_renderer -B /media/ftc/G/code/toy_renderer/cmake-build-debug
--- Including Wayland support
--- Including X11 support
--- Configuring done (0.2s)
--- Generating done (0.1s)
--- Build files have been written to: /media/ftc/G/code/toy_renderer/cmake-build-debug
