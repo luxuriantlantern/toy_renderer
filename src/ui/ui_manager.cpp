@@ -3,6 +3,7 @@
 //
 
 #include "ui_manager.h"
+#include "ImGuiFileDialog.h"
 
 void UI_Manager::init() {
     IMGUI_CHECKVERSION();
@@ -58,6 +59,19 @@ void UI_Manager::startloop() {
             if (ImGui::InputFloat("Z Position", &pos[2])) {
                 position.z = pos[2];
                 mcamera->setPosition(position);
+            }
+            ImGui::EndMenu();
+        }
+        if(ImGui::BeginMenu("Add"))
+        {
+            if (ImGui::MenuItem("Open File"))
+            {
+                // Use correct parameters for OpenDialog
+                ImGuiFileDialog::Instance()->OpenDialog(
+                        "ChooseFileDlg",
+                        "Choose File",
+                        ".obj,.fbx,.gltf" // Filter for 3D model files
+                        );  // Starting path
             }
             ImGui::EndMenu();
         }

@@ -48,3 +48,16 @@ add_library(json INTERFACE)
 target_include_directories(json INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/json/include
 )
+
+# ImGuiFileDialog
+add_library(imguifiledialog STATIC
+        ImGuiFileDialog/ImGuiFileDialog.cpp
+)
+
+target_include_directories(imguifiledialog PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/ImGuiFileDialog
+)
+
+target_link_libraries(imguifiledialog PUBLIC
+        imgui
+)

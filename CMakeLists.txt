@@ -37,4 +37,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         glm
         imgui
         json
+        imguifiledialog
 )

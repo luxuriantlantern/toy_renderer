@@ -26,12 +26,6 @@ public:
 private:
     GLFWwindow *mWindow;
     std::shared_ptr<Camera> mcamera;
-    static const int MAX_PLOT_POINTS = 100;
-    float posX_history[MAX_PLOT_POINTS] = {0};
-    float posY_history[MAX_PLOT_POINTS] = {0};
-    float posZ_history[MAX_PLOT_POINTS] = {0};
-    int values_offset = 0;
-    bool plot_paused = false;
 };
 
 

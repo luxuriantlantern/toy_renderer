@@ -15,7 +15,7 @@ public:
                       float aspectRatio = 1.0f,
                       float near = 0.1f,
                       float far = 100.0f,
-                      glm::vec3 position = glm::vec3(0.0f, 1.0f, 3.0f)):
+                      glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f)):
                       Camera(position),
                       mfov(fov),
                       maspectRatio(aspectRatio),
