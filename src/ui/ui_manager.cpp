@@ -25,6 +25,25 @@ void UI_Manager::startloop() {
     int width, height;
     glfwGetFramebufferSize(mWindow, &width, &height);
 
+    ImGui::SetNextWindowPos(ImVec2(width - 140, 10));
+    ImGui::SetNextWindowSize(ImVec2(130, 70));
+    ImGui::Begin("ShaderSelect", nullptr,
+                 ImGuiWindowFlags_NoTitleBar |
+                 ImGuiWindowFlags_NoResize |
+                 ImGuiWindowFlags_NoMove |
+                 ImGuiWindowFlags_NoScrollbar);
+
+    if (ImGui::Button("D", ImVec2(50, 50))) {
+        // Set Default shader
+        mRenderer->setShaderType(Shadertype::DEFAULT);
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("P", ImVec2(50, 50))) {
+        // Set Phong shader
+        mRenderer->setShaderType(Shadertype::PHONG);
+    }
+    ImGui::End();
+
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImVec2(width / 3, height * 2 / 3));
 

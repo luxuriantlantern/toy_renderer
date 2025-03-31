@@ -20,8 +20,9 @@ public:
     UI_Manager(GLFWwindow *window,
                std::shared_ptr<Camera> camera,
                std::shared_ptr<Scene> scene,
+               std::shared_ptr<Renderer> renderer,
                std::shared_ptr<Loader> loader)
-                        : mWindow(window), mcamera(camera),
+                        : mWindow(window), mcamera(camera), mRenderer(renderer),
                           mLoader(loader), mScene(scene){this->init();}
     ~UI_Manager() = default;
 
@@ -35,6 +36,7 @@ private:
     std::shared_ptr<Camera> mcamera;
     std::shared_ptr<Scene> mScene;
     std::shared_ptr<Loader> mLoader;
+    std::shared_ptr<Renderer> mRenderer;
 };
 
 

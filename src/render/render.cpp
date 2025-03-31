@@ -5,12 +5,14 @@
 #include "render.h"
 
 Renderer::Renderer() {
+    if(mShaderProgram)glDeleteProgram(mShaderProgram), mShaderProgram = 0;
     mShaderMode = Shadertype::DEFAULT;
     setupDefaultShader();
 }
 
 Renderer::Renderer(Shadertype mode)
 {
+    if(mShaderProgram)glDeleteProgram(mShaderProgram), mShaderProgram = 0;
     mShaderMode = mode;
     switch (mode)
     {
@@ -27,6 +29,7 @@ Renderer::Renderer(Shadertype mode)
 
 Renderer::~Renderer() {
     glDeleteProgram(mShaderProgram);
+    mShaderProgram = 0;
 }
 
 void Renderer::setupDefaultShader() {
@@ -146,6 +149,28 @@ void Renderer::setupPhongShader() {
     // Set default light color (white)
     unsigned int lightColorLoc = glGetUniformLocation(mShaderProgram, "lightColor");
     glUniform3f(lightColorLoc, lightcolor.r, lightcolor.g, lightcolor.b);
+}
+
+bool Renderer::setShaderType(Shadertype newType) {
+    if(newType == mShaderMode)return true;
+    if(mShaderProgram)
+    {
+        glDeleteProgram(mShaderProgram);
+        mShaderProgram = 0;
+    }
+    mShaderMode = newType;
+    switch (newType)
+    {
+        case Shadertype::DEFAULT:
+            setupDefaultShader();
+            break;
+        case Shadertype::PHONG:
+            setupPhongShader();
+            break;
+        default:
+            setupDefaultShader();
+    }
+    return mShaderProgram != 0;
 }
 
 void Renderer::renderObject(const Camera *camera, const Object *object)

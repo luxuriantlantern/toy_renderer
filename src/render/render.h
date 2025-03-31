@@ -28,9 +28,10 @@ public:
 
     void renderObject(const Camera* camera, const Object* object);
     void renderLight();
+    bool setShaderType(Shadertype mode);
 
 private:
-    unsigned int mShaderProgram;
+    unsigned int mShaderProgram = 0;
     Shadertype mShaderMode;
     void setupDefaultShader(); // Basic shader setup
     void setupPhongShader(); // Phong shader setup
