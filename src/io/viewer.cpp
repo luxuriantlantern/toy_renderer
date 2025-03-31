@@ -148,7 +148,7 @@ void Viewer::init(int width, int height, CameraType cameratype, Shadertype shade
     mrenderer = std::make_shared<Renderer>(shadertype);
     mscene->setRenderer(mrenderer);
 
-    muimanager = std::make_shared<UI_Manager>(mwindow, mcamera);
+    muimanager = std::make_shared<UI_Manager>(mwindow, mcamera, mscene, mloader);
 }
 
 void Viewer::mainloop()

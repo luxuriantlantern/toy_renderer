@@ -26,42 +26,12 @@ void UI_Manager::startloop() {
     glfwGetFramebufferSize(mWindow, &width, &height);
 
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(ImVec2(width / 2, height / 2));
+    ImGui::SetNextWindowSize(ImVec2(width / 3, height * 2 / 3));
 
     ImGui::Begin("Manual Bar", nullptr, ImGuiWindowFlags_MenuBar);
     if (ImGui::BeginMenuBar())
     {
-        if (ImGui::BeginMenu("Camera parameter"))
-        {
-            if(mcamera->getType() == CameraType::PERSPECTIVE) {
-                ImGui::Text("Camera Type: Perspective");
-
-            }
-            else {
-                ImGui::Text("Camera Type: Orthographic");
-            }
-            glm::vec3 position = mcamera->getPosition();
-
-            float pos[3] = { position.x, position.y, position.z };
-
-            if (ImGui::InputFloat3("Position", pos)) {
-                mcamera->setPosition(glm::vec3(pos[0], pos[1], pos[2]));
-            }
-            ImGui::Text("Camera Position Controls:");
-            if (ImGui::InputFloat("X Position", &pos[0])) {
-                position.x = pos[0];
-                mcamera->setPosition(position);
-            }
-            if (ImGui::InputFloat("Y Position", &pos[1])) {
-                position.y = pos[1];
-                mcamera->setPosition(position);
-            }
-            if (ImGui::InputFloat("Z Position", &pos[2])) {
-                position.z = pos[2];
-                mcamera->setPosition(position);
-            }
-            ImGui::EndMenu();
-        }
+        // Add menu now comes first
         if(ImGui::BeginMenu("Add"))
         {
             if (ImGui::MenuItem("Open File"))
@@ -70,14 +40,73 @@ void UI_Manager::startloop() {
                 ImGuiFileDialog::Instance()->OpenDialog(
                         "ChooseFileDlg",
                         "Choose File",
-                        ".obj,.fbx,.gltf" // Filter for 3D model files
-                        );  // Starting path
+                        "3D Models{.obj,.ply},JSON{.json}"
+                );
             }
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();
     }
+
+    // Camera parameters shown directly in the window
+    if(mcamera->getType() == CameraType::PERSPECTIVE) {
+        ImGui::Text("Camera Type: Perspective");
+    }
+    else {
+        ImGui::Text("Camera Type: Orthographic");
+    }
+
+    glm::vec3 position = mcamera->getPosition();
+    float pos[3] = { position.x, position.y, position.z };
+
+    if (ImGui::InputFloat3("Position", pos)) {
+        mcamera->setPosition(glm::vec3(pos[0], pos[1], pos[2]));
+    }
+
+    ImGui::Text("Camera Position Controls:");
+    if (ImGui::InputFloat("X Position", &pos[0])) {
+        position.x = pos[0];
+        mcamera->setPosition(position);
+    }
+    if (ImGui::InputFloat("Y Position", &pos[1])) {
+        position.y = pos[1];
+        mcamera->setPosition(position);
+    }
+    if (ImGui::InputFloat("Z Position", &pos[2])) {
+        position.z = pos[2];
+        mcamera->setPosition(position);
+    }
     ImGui::End();
+    glfwGetFramebufferSize(mWindow, &width, &height);
+
+// Set dialog size to 80% of window size
+    ImVec2 dialogSize = ImVec2(width * 0.8f, height * 0.8f);
+    if (ImGuiFileDialog::Instance()->Display("ChooseFileDlg", ImGuiWindowFlags_NoCollapse, dialogSize))
+    {
+        if (ImGuiFileDialog::Instance()->IsOk())
+        {
+            std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
+
+            // Load the selected object
+            try {
+                std::shared_ptr<Object> object = mLoader->load(filePath);
+                if (object) {
+                    object->setColor(glm::vec3{1.0f, 1.0f, 1.0f});
+                    object->setModelMatrix(glm::vec3{0.0f, 0.0f, 0.0f});
+                    object->setMaterial(glm::vec3 {1.0, 0.5f, 0.31f}, glm::vec3 {1.0f, 0.5f, 0.31f}, glm::vec3 {0.5f, 0.5f, 0.5f});
+                    object->setup();
+                    mScene->addObject(object);
+                    std::cout << "Loaded object from: " << filePath << std::endl;
+                }
+            }
+            catch (const std::exception& e) {
+                std::cerr << "Error loading object: " << e.what() << std::endl;
+            }
+        }
+
+        // Close the dialog
+        ImGuiFileDialog::Instance()->Close();
+    }
 }
 
 void UI_Manager::endloop()
