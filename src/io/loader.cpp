@@ -22,7 +22,12 @@ std::shared_ptr<Object> Loader::loadOBJ(const std::string& filePath) {
         std::string prefix;
         iss >> prefix;
 
-        if (prefix == "v") {
+        if(prefix == "mtllib") {
+            std::string mtlFile;
+            iss >> mtlFile;
+            mObject-> texturePath = filePath.substr(0, filePath.find_last_of('/')) + "/" + mtlFile;
+        }
+        else if (prefix == "v") {
             processVertex(line, mObject);
         } else if (prefix == "vn") {
             processNormal(line, mObject);

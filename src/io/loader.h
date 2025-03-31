@@ -38,6 +38,7 @@ private:
     void processNormal(const std::string& line, std::shared_ptr<Object> &mObject);
     void processFace(const std::string& line, std::shared_ptr<Object> &mObject);
     void processTexture(const std::string& line, std::shared_ptr<Object> &mObject);
+    void loadMTL(std::shared_ptr<Object>& object);
 };
 
 

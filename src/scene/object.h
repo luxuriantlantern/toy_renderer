@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <string>
 
 
 class Object {
@@ -69,6 +70,10 @@ public:
     std::vector<glm::vec2> texCoords;
     std::vector<glm::vec3> facenormals;
     bool normalcalculated = false;
+
+    unsigned int textureID = 0;
+    bool hasTexture = false;
+    std::string texturePath;
 
 protected:
     unsigned int VAO, VBO, EBO, NBO;
